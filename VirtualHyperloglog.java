@@ -7,10 +7,10 @@ import java.util.BitSet;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Project5 {
+public class VirtualHyperloglog {
 
 	public static void main(String args[]) throws FileNotFoundException{
-		
+
 		final int COUNTER_SIZE = 5;
 		final int VIRTUAL_COUNTER_NUM = 32; //s
 		final int PHYSICAL_COUNTER_NUM = 1000000; //m
@@ -18,39 +18,39 @@ public class Project5 {
 		for(int i=0;i<PHYSICAL_COUNTER_NUM;i++){
 			counter[i] = new BitSet(COUNTER_SIZE);
 		}
-		
+
 		int[] random_array = new int[VIRTUAL_COUNTER_NUM];
     	Random rand2 = new Random();
     	for(int i=0;i<VIRTUAL_COUNTER_NUM;i++){
     		random_array[i] = rand2.nextInt(PHYSICAL_COUNTER_NUM)+1;
-    		//System.out.print(random_array[i] + " ");	
+    		//System.out.print(random_array[i] + " ");
     	}
-		
+
 		Scanner scanner = new Scanner(new File("C:/Users/venkateshmantha/Desktop/itm/new.csv"));
         scanner.useDelimiter(",");
         int fid =1;
-        
+
         while(scanner.hasNext())
         {
         	int temp = scanner.nextInt();
         	int counter_index =0;
         	int[] virtual_array_indices = new int[VIRTUAL_COUNTER_NUM];
-        	
-        	//populating the indices of virtual counter from the mega array	
-        	
+
+        	//populating the indices of virtual counter from the mega array
+
         	for(int i=0;i<VIRTUAL_COUNTER_NUM;i++){
-        		virtual_array_indices[i] = (fid^random_array[i])%PHYSICAL_COUNTER_NUM; 
+        		virtual_array_indices[i] = (fid^random_array[i])%PHYSICAL_COUNTER_NUM;
         	}
-        	
-        	
+
+
         	for(int i=1;i<=temp;i++)
         	{
-	        	Random rand = new Random(); 
+	        	Random rand = new Random();
 	        	int rand_value = rand.nextInt(temp);		//packets
 	        	String binaryStr = Integer.toBinaryString(rand_value);
-	        	
+
 	        	//selecting the virtual counters using the populated array
-	        	
+
 	        	counter_index = virtual_array_indices[rand_value%VIRTUAL_COUNTER_NUM];
 	        	/*if(counter[counter_index] == null)
 	            	counter[counter_index] = new BitSet(COUNTER_SIZE);*/
@@ -61,11 +61,11 @@ public class Project5 {
 	        	counter[counter_index].set(zeroes);		//setting the bit
         	}
         	//System.out.println(counter);
-        	
+
         	/*
-        	 * Repeating Hyperloglog algorithm for virtual counters 
+        	 * Repeating Hyperloglog algorithm for virtual counters
         	 */
-        	
+
         	double sum =0;
         	for(int i=0;i<VIRTUAL_COUNTER_NUM;i++){
         		//System.out.print(counter[i] + " ");
@@ -74,19 +74,19 @@ public class Project5 {
         		sum = sum +exp;
         		//System.out.print(exp + " ");
         		//System.out.println();
-        		
+
         		//counter[virtual_array_indices[i]].clear();
-        		
+
         	}
         	System.out.println(sum);
         	//System.out.println();
         	fid++;
         }
-        
+
         scanner.close();
-		
+
 	}
-	
+
 	public static int CountLeadingZeros(String s){
 		int count=0;
 		int strlen = s.length();
@@ -103,5 +103,5 @@ public class Project5 {
 		}
 		return count;
 	}
-	
+
 }

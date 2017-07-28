@@ -7,17 +7,17 @@ import java.util.BitSet;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Project3 {
+public class FMSketch {
 
 	public static void main(String args[]) throws FileNotFoundException{
-		
+
 		final int COUNTER_SIZE = 32;
 		final int COUNTER_NUM = 32;
 		BitSet[] counter = new BitSet[COUNTER_NUM];
-		
+
 		Scanner scanner = new Scanner(new File("C:/Users/venkateshmantha/Desktop/itm/new.csv"));
         scanner.useDelimiter(",");
-        
+
         while(scanner.hasNext())
         {
         	int temp = scanner.nextInt();
@@ -26,7 +26,7 @@ public class Project3 {
         	counter[counter_index] = new BitSet(COUNTER_SIZE);*/
         	for(int i=1;i<=temp;i++)
         	{
-	        	Random rand = new Random(); 
+	        	Random rand = new Random();
 	        	int rand_value = rand.nextInt(temp);		//packets
 	        	String binaryStr = Integer.toBinaryString(rand_value);
 	        	counter_index = rand_value%COUNTER_NUM;
@@ -51,15 +51,15 @@ public class Project3 {
         		}
         		else sum =0;
         	}
-        	
+
         	System.out.println(sum);
-        	
+
         }
-        
+
         scanner.close();
-		
+
 	}
-	
+
 	public static int CountLeadingZeros(String s){
 		int count=0;
 		int strlen = s.length();
@@ -76,5 +76,5 @@ public class Project3 {
 		}
 		return count;
 	}
-	
+
 }
